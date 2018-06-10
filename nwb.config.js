@@ -4,14 +4,14 @@ module.exports = {
   type: 'react-component',
   npm: {
     esModules: true,
-    umd: false,
+    umd: false
   },
-	webpack: {
+  webpack: {
     rules: {
       less: {
         data: '@import "_variables"',
-        includePaths: [path.resolve('src/styles')],
-      },
-    },
-  },
+        includePaths: [path.resolve('src/styles')]
+      }
+    }
+  }
 };

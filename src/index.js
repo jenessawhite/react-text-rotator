@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
+import CSSTransitionGroup from 'react-transition-group/CSSTransitionGroup';
 import './styles/transitions.less';
 
 class TextRotator extends Component {
@@ -9,7 +9,7 @@ class TextRotator extends Component {
 
     this.state = {
       current: null,
-      index: 0,
+      index: 0
     };
 
     this.willUnmount = false;
@@ -39,20 +39,20 @@ class TextRotator extends Component {
           this.nextText();
         }, time);
       }, startDelay);
-    }    
-  }
+    }
+  };
 
   nextText = () => {
     if (!this.willUnmount) {
       const { content } = this.props;
       const currentStep = this.state.index;
       const total = content.length || 0;
-      const index = (total === currentStep + 1) ? 0 : currentStep + 1;
+      const index = total === currentStep + 1 ? 0 : currentStep + 1;
       const current = content[index];
 
       this.setState({ current, index });
     }
-  }
+  };
 
   render() {
     const { current, index } = this.state;
@@ -61,31 +61,34 @@ class TextRotator extends Component {
     if (!text) return <span />;
 
     return (
-      <ReactCSSTransitionGroup
+      <CSSTransitionGroup
         transitionName={`react-text-rotator-${animation}`}
         transitionEnterTimeout={300}
         transitionLeaveTimeout={0}
-        transitionLeave={false}
-      >
-        <span key={index} className={className}>{text}</span>
-      </ReactCSSTransitionGroup>
+        transitionLeave={false}>
+        <span key={index} className={className}>
+          {text}
+        </span>
+      </CSSTransitionGroup>
     );
   }
 }
 
 TextRotator.propTypes = {
-	content: PropTypes.arrayOf(PropTypes.shape({
-    text: PropTypes.string.isRequired,
-    className: PropTypes.string,
-    animation: PropTypes.oneOf(['fade']),
-  })).isRequired,
+  content: PropTypes.arrayOf(
+    PropTypes.shape({
+      text: PropTypes.string.isRequired,
+      className: PropTypes.string,
+      animation: PropTypes.oneOf(['fade'])
+    })
+  ).isRequired,
   time: PropTypes.number,
-  startDelay: PropTypes.number,
+  startDelay: PropTypes.number
 };
 
 TextRotator.defaultProps = {
   time: 2500,
-  startDelay: 0,
+  startDelay: 0
 };
 
 export default TextRotator;
